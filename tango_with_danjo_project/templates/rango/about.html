@@ -6,17 +6,7 @@
 	<body>
 		<h1>Rango says...</h1>
 		<br>hey Hello all</br>
-		{% if categories%}
-			<ul>
-			{% for category in categories%}
-			<li>
-				{{ category.name }}
-			</li>
-			{% endfor %}
-			</ul>
- 
-		{% endif %}
+		<br>{{message}}<a href="/rango/">About</a></br>
         <br><img src="{% static 'images/1.jpg' %}" alt="my image"></br>
-        <a href="rango/about/">about</a>
 	</body>
 </html>

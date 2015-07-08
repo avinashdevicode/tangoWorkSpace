@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from rango.models import Category, Page
 
 def index(request):
-  context_dict = {'message':"hey i am the message"}
-  return render(request, 'rango/index.html', context_dict) 
+    categories = Category.objects.order_by('-likes')[:5]
+    context_dict = {'categories':categories}
+    return render(request, 'rango/index.html', context_dict) 
   
 def about(request):
-  return HttpResponse("<html><body>its a about page<br><a href='/rango/'>home</a></br></body></html>") 
+    context_dict = {'message':"this is about page hee"}
+    return render(request, 'rango/about.html', context_dict) 
