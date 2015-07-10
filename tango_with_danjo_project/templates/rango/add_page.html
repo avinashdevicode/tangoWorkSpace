@@ -1,0 +1,26 @@
+{% extends "rango/base.html" %}
+{block title}
+Adding a page
+{end block}
+
+{block body_block}
+{% block body_block %}
+	{% if category %}
+	<form method="post" action="/rango/category/{{category.slug}}/add_page/">
+	{% csrf_token %}
+	{% for hidden in form.hidden_fields %}
+		{{hidden}}
+	{% endfor %}
+	{% for field in form.visible_fields %}
+		{{field.errors}}
+		{{field.name}}
+		{{feild.help_text}}
+		{{field}}
+	{% endfor %}
+	<input type="submit" name="submit" value="add page" />
+	</form>
+	{%else%}
+	<h1>No categories found</h1>
+	{% endif %}
+
+{% endblock %}

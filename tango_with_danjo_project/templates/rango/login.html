@@ -1,0 +1,20 @@
+{% extends 'rango/base.html' %}
+
+{% block title %}
+	login page
+{% endblock %}
+
+{% block body_block %}
+	{% if next %}
+		<formmethod="post" action='/rango/login/?next={{next}}'>
+	{% else %}
+	<form method="post" action='/rango/login/' id='login'>
+	{% endif %}	
+		{% csrf_token %}
+		username{{next}} : <input type="text" name="username" value="" size="50" />
+		<br/>
+		password : <input type="password" name="password" value="" size="50" />
+		<br/>
+		<input type="submit" name="submit" value="login" >
+	</form>
+{% endblock %}

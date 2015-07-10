@@ -1,0 +1,23 @@
+{% extends 'rango/base.html' %}
+{% block title %}
+Register page
+{% endblock %}
+
+{% block body_block %}
+
+{% if registerd %}
+	<h2> 
+	Thanks for registration
+	</h2>
+	<a href="/rango/">Go to Home page</a>
+{% else %}
+	<form method="post" id="register" action="/rango/register/">
+		{% csrf_token %}
+		{{user_form.errors}}
+		{{profile_form.errors}}
+		{{ user_form.as_p }}
+		{{ profile_form.as_p}}
+		<input type="submit" name="register" value="Register" >
+	</form>
+{% endif %}
+{% endblock %}

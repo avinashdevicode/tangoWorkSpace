@@ -1,5 +1,6 @@
-<html>
-<body>
+{% extends "rango/base.html" %}
+
+{% block body_block %}
 <h1>{{ category_name }}</h1>
 {% if category%}
 	{% if pages%}
@@ -12,5 +13,7 @@
 {% else %}
 	the specified category {{categegoty_name}} does not exist!!
 {% endif %}
-</body>
-</html>
+<a href="/rango/category/{{category.slug}}/add_page/">Add Page</a>
+<a href="/rango/">Home</a>
+
+{% endblock %}
