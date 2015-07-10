@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.views import login, logout
 from django.http.response import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 
 def my_login_required(function):
@@ -25,7 +26,30 @@ def my_login_required(function):
 def index(request):
     categories = Category.objects.order_by('-likes')[:5]
     context_dict = {'categories':categories}
-    return render(request, 'rango/index.html', context_dict)
+    visits = request.session.get("visits")
+    reset_last_vist_time_set = False
+    response = render(request, 'rango/index.html', context_dict)
+    
+    if not visits:
+        visits=1
+    if "last_visit" in request.session:
+        last_visit = request.session.get('last_visited')
+        last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
+        
+        if (datetime.now()- last_visit_time).seconds >2:
+            visits += 1
+        context_dict['visits'] = visits
+        response = render(request, 'rango/index.html', context_dict)    
+    else:
+        request.session["last_vist"] = str(datetime.now())
+        request.session["visits"] = visits
+        context_dict['visits'] = visits
+        response = render(request, 'rango/index.html', context_dict)
+        
+    if reset_last_vist_time_set:
+        request.session['last_visit'] = str(datetime.now())
+        request.session['visits'] = visits
+    return response
 
 def category(request, category_slug):
     context_dict = {}
