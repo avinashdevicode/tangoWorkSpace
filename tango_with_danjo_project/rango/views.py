@@ -25,15 +25,18 @@ def my_login_required(function):
 
 def index(request):
     categories = Category.objects.order_by('-likes')[:5]
-    context_dict = {'categories':categories}
+    pages = Page.objects.order_by("-views")[:5]
+    context_dict = {'categories':categories, 'pages':pages}
     visits = request.session.get("visits")
     reset_last_vist_time_set = False
     response = render(request, 'rango/index.html', context_dict)
-    
+    print "---------number of visits ====" + str(visits)
+    print "last visit ----------------" + str(request.session.get('last_visit'))
     if not visits:
         visits=1
     if "last_visit" in request.session:
-        last_visit = request.session.get('last_visited')
+        last_visit = request.session.get('last_visit')
+        reset_last_vist_time_set = True
         last_visit_time = datetime.strptime(last_visit[:-7], "%Y-%m-%d %H:%M:%S")
         
         if (datetime.now()- last_visit_time).seconds >2:
@@ -44,9 +47,11 @@ def index(request):
         request.session["last_vist"] = str(datetime.now())
         request.session["visits"] = visits
         context_dict['visits'] = visits
+        reset_last_vist_time_set = True
         response = render(request, 'rango/index.html', context_dict)
         
     if reset_last_vist_time_set:
+        print "I am here ...................."
         request.session['last_visit'] = str(datetime.now())
         request.session['visits'] = visits
     return response

@@ -1,19 +1,12 @@
 {% extends "rango/base.html" %}
 
+
+
+{% load bootstrap_toolkit %}
+
+{% block title %}Add Category{% endblock %}
+
 {% block body_block %}
-<h1>{{ category_name }}</h1>
-{% if category%}
-	{% if pages%}
-		<ul>
-		{% for page in pages %}
-			<li><a href="{{page.url}}"> {{page.title}} </a></li>
-		{% endfor %}
-		</ul>
-	{%  endif %}
-{% else %}
-	the specified category {{categegoty_name}} does not exist!!
-{% endif %}
-<a href="/rango/category/{{category.slug}}/add_page/">Add Page</a>
-<a href="/rango/">Home</a>
+You are in {{category.name}}
 
 {% endblock %}
